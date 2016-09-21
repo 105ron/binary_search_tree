@@ -11,13 +11,14 @@ class BinarySearchTree
 
 
   def build_from_sorted(array)
-    puts "I'm now diving #{array}"
+    #This method takes a sorted array and passes it to input_to_tree recursively
+    #So that our root node is in the middle of our values and the tree is balanced
     if array.size >=3
       divide_point = (array.length / 2)
       divide_point += 1 if (array.length % 2 != 0) #left will be the bigger array if elements is odd
       left,right = array.each_slice(divide_point).to_a
-      input_to_tree(left[-1])
-      build_from_sorted(left[0..-2])     #last element of left will be middle element
+      input_to_tree(left[-1])   #last element of left will be middle element
+      build_from_sorted(left[0..-2])     
       build_from_sorted(right)
     elsif array.length == 2
       input_to_tree(array[0])
@@ -27,60 +28,60 @@ class BinarySearchTree
     end
   end
 
-  def input_to_tree(value)
-   # puts input
-   # current = @root
-   # assigned = false
-   # until assigned == true
-   #   if current.value == nil
-   #     current = Node.new(input)
-   #     assigned = true
-   #   elsif input < current.value
-   #     puts "heading left"
-   #     if current.left == nil
-   #       current.left = Node.new(input)
-   #     else
-   #       current = current.left
-   #     end
-   #   else
 
-   #     current = current.right
-   #   end
-   # end
-   # puts @root.inspect
-   set = nil
-   if @root.value == nil
-    @root.value = value
-    set = true
+  def build_tree(array)
+    array.each do |element|
+      input_to_tree(element)
+    end
   end
-   puts value
-      cur_node = @root
+
+
+  def breadth_first_search(value)
+    queue = []
+    queue << @root
+    while queue[0] != nil
+      current_node = queue.shift #queue[0] is assigned to current_node and removed from queue
+      if current_node.value == value
+        return "#{current_node} is holding #{current_node.value}"  #explicit return to quit the loop
+      else
+        queue << current_node.left unless current_node.left == nil #adding left to our queue if it's not nil
+        queue << current_node.right unless current_node.right == nil
+      end
+    end
+    return "not found"
+  end
+
+
+  def input_to_tree(value)
+    set = nil
+    if @root.value == nil #if root value not set. Set and don't run the loop
+      @root.value = value
+      set = true
+    end
+      current_node = @root
       while not set
-        if value > cur_node.value
-          if cur_node.right == nil
-            cur_node.right = Node.new(value,nil, nil, cur_node)
-            puts "inspecting"
-            puts cur_node.inspect
+        if value > current_node.value
+          if current_node.right == nil
+            current_node.right = Node.new(value,nil, nil, current_node)
             set = true
           else
-            cur_node = cur_node.right
+            current_node = current_node.right
           end
         else
-          if cur_node.left == nil 
-            cur_node.left = Node.new(value,nil, nil, cur_node)
+          if current_node.left == nil 
+            current_node.left = Node.new(value,nil, nil, current_node)
             set = true
           else
-            cur_node = cur_node.left
+            current_node = current_node.left
           end
         end
       end
-    puts @root.inspect
+    #puts @root.inspect #for developement
   end
 
 
-
-  #private #commented for developement
-
 end
  it = BinarySearchTree.new
- it.build_from_sorted([1,2,3,4,5,6,7,8,9])
+ it.build_from_sorted([1,2,3,4,5,6,7])
+ puts it.breadth_first_search(7)
+ #
