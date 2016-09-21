@@ -48,9 +48,25 @@ class BinarySearchTree
         queue << current_node.right unless current_node.right == nil
       end
     end
-    return "not found"
+    return nil
   end
 
+
+  def depth_first_search(value)
+    stack = []
+    stack[0] = @root
+    while stack[0] != nil
+      current_node = stack[-1] #take last element from the stack
+      stack.pop #remove element from the stack
+      if current_node.value == value
+        return "#{current_node} is holding #{current_node.value}"  #explicit return to quit the loop
+      else
+        stack << current_node.right unless current_node.right == nil
+        stack << current_node.left unless current_node.left == nil #adding left to our stack last so we can pull it off first in next iteration
+      end
+    end
+    return nil
+  end
 
   def input_to_tree(value)
     set = nil
@@ -83,5 +99,6 @@ class BinarySearchTree
 end
  it = BinarySearchTree.new
  it.build_from_sorted([1,2,3,4,5,6,7])
- puts it.breadth_first_search(7)
- #
+ #puts it.breadth_first_search(4)
+ puts it.depth_first_search(7)
+ 
