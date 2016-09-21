@@ -68,6 +68,21 @@ class BinarySearchTree
     return nil
   end
 
+
+  def dfs_rec(value, current_node = @root)
+    return "#{current_node} is holding #{current_node.value}" if value == current_node.value
+    unless current_node.left.nil?
+      result = dfs_rec(value, current_node.left)
+      return result unless result == nil
+    end
+    unless current_node.right.nil?
+      result = dfs_rec(value, current_node.right)
+      return result unless result == nil
+    end
+  nil
+  end
+
+
   def input_to_tree(value)
     set = nil
     if @root.value == nil #if root value not set. Set and don't run the loop
@@ -99,6 +114,6 @@ class BinarySearchTree
 end
  it = BinarySearchTree.new
  it.build_from_sorted([1,2,3,4,5,6,7])
- #puts it.breadth_first_search(4)
- puts it.depth_first_search(7)
+ puts it.breadth_first_search(4)
+ puts it.dfs_rec(1)
  
