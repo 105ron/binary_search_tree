@@ -1,6 +1,6 @@
-#Searching Binary Tree
+#Binary Search Tree
 
-A simple binary tree data structure built from some arbitrary input. It includes
+A simple binary tree data structure built from some arbitrary input. It includes:
 
 * A method `#breadth_first_search` which takes a target value and returns the node at which it is located using the breadth first search technique.
 * A method `#depth_first_search` which returns the node at which the target value is located using the depth first search technique.
